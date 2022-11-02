@@ -2,7 +2,7 @@ clear
 close all
 load COVIDdata.mat
 
-function b = baseSR(x,data,pop,start_index,end_index)
+function b = baseSR(data,pop,start_index,end_index)
 
 %% Visualize the real life data
 figure, hold on
@@ -46,6 +46,7 @@ data = [casedata deathdata];
 % time step calculated from the start/end of
 % the raw data
 t = end_index-start_index + 1; 
+x = rand (12,1); 
 % the three parameters are now ready to be placed into siroutput()
 
 % The following line creates an 'anonymous' function that will return the
@@ -127,3 +128,5 @@ plot(t_vector,sim_cases, 'LineWidth',2)
 plot(t_vector,actual_cases, 'LineWidth',2)
 legend('sim_{}cases','actual_{}cases')
 hold off
+
+end
