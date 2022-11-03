@@ -1,0 +1,34 @@
+load COVIDdata.mat
+
+start_index = 230;
+end_index = 400;
+iterations = 10;
+fit_data = zeros(10,13);
+
+for num = 1:iterations
+    [fit_data(num,1),fit_data(num,2:end)] = baseSRFunc(COVID_STLmetro,...
+        STLmetroPop, start_index, end_index);
+end
+
+min_score_index = find(fit_data == min(fit_data(:,1)));
+best_fit_data = fit_data(min_score_index,:);
+
+%%
+
+y = siroutput_full(best_fit_data(2:end),end_index-start_index+1);
+actual_cases = COVID_STLmetro.cases/(100000*STLmetroPop);
+
+% cases for the time in question
+actual_cases = actual_cases(start_index:end_index);
+actual_deaths = COVID_STLmetro.deaths/(100000*STLmetroPop);
+actual_deaths = actual_deaths(start_index:end_index);
+
+figure, hold on
+plot(actual_deaths, 'LineWidth',2)
+plot(y(:,4), 'LineWidth',2)
+hold off
+
+figure, hold on
+plot(actual_cases, 'LineWidth',2)
+plot(1-y(:,1), 'LineWidth',2)
+hold off
